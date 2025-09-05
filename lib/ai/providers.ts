@@ -11,6 +11,7 @@ import {
   titleModel,
 } from './models.test';
 import { isTestEnvironment } from '../constants';
+import { qwen3Plus } from './models';
 
 export const myProvider = isTestEnvironment
   ? customProvider({
@@ -23,12 +24,12 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model': gateway.languageModel('xai/grok-2-vision-1212'),
+        'chat-model': qwen3Plus,
         'chat-model-reasoning': wrapLanguageModel({
-          model: gateway.languageModel('xai/grok-3-mini-beta'),
+          model: qwen3Plus,
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': gateway.languageModel('xai/grok-2-1212'),
-        'artifact-model': gateway.languageModel('xai/grok-2-1212'),
+        'title-model': qwen3Plus,
+        'artifact-model': qwen3Plus,
       },
     });
