@@ -3,14 +3,13 @@ import { minioClient } from '@/app/(chat)/api/files/upload/minio';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { bucket: string; filename: string } },
+  { params }: { params: Promise<{ bucket: string; filename: string }> },
 ) {
-  const { bucket, filename } = params;
+  const { bucket, filename } = await params;
 
   try {
     // 生成临时下载链接（有效期1小时）
     const url = await minioClient.presignedGetObject(bucket, filename, 60 * 60);
-
     // 302 跳转到下载链接
     return NextResponse.redirect(url, 302);
   } catch (error: any) {
