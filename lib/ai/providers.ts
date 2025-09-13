@@ -5,6 +5,7 @@ import {
 } from 'ai';
 import { gateway } from '@ai-sdk/gateway';
 import { isTestEnvironment } from '../constants';
+import { qwenVLPlus } from './my-models';
 
 export const myProvider = isTestEnvironment
   ? (() => {
@@ -25,12 +26,13 @@ export const myProvider = isTestEnvironment
     })()
   : customProvider({
       languageModels: {
-        'chat-model': gateway.languageModel('xai/grok-2-vision-1212'),
+        'qwen-vl-plus': qwenVLPlus,
+        'chat-model': qwenVLPlus,
         'chat-model-reasoning': wrapLanguageModel({
-          model: gateway.languageModel('xai/grok-3-mini'),
+          model: qwenVLPlus,
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': gateway.languageModel('xai/grok-2-1212'),
-        'artifact-model': gateway.languageModel('xai/grok-2-1212'),
+        'title-model': qwenVLPlus,
+        'artifact-model': qwenVLPlus,
       },
     });
