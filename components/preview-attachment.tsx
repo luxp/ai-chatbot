@@ -23,8 +23,8 @@ export const PreviewAttachment = ({
       className="group relative size-16 overflow-hidden rounded-lg border bg-muted"
     >
       {contentType?.startsWith('image') ? (
-        <Image
-          src={url}
+        <img
+          src={url ?? ''}
           alt={name ?? 'An image attachment'}
           className="size-full object-cover"
           width={64}

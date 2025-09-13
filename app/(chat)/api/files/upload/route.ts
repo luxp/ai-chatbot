@@ -1,4 +1,5 @@
-import { put } from '@vercel/blob';
+// import { put } from '@vercel/blob';
+import { put } from '@/app/(chat)/api/files/upload/minio';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
 
     try {
       const data = await put(`${filename}`, fileBuffer, {
-        access: 'public',
+        bucket: 'default-bucket',
       });
 
       return NextResponse.json(data);
