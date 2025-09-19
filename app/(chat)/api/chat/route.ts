@@ -120,9 +120,9 @@ export async function POST(request: Request) {
       differenceInHours: 24,
     });
 
-    if (messageCount > entitlementsByUserType[userType].maxMessagesPerDay) {
-      return new ChatSDKError('rate_limit:chat').toResponse();
-    }
+    // if (messageCount > entitlementsByUserType[userType].maxMessagesPerDay) {
+    //   return new ChatSDKError('rate_limit:chat').toResponse();
+    // }
 
     const chat = await getChatById({ id });
 
@@ -173,6 +173,7 @@ export async function POST(request: Request) {
 
     let finalMergedUsage: AppUsage | undefined;
 
+    console.log('createUIMessageStream');
     const stream = createUIMessageStream({
       execute: ({ writer: dataStream }) => {
         const result = streamText({
@@ -210,13 +211,19 @@ export async function POST(request: Request) {
                 myProvider.languageModel(selectedChatModel).modelId;
               if (!modelId) {
                 finalMergedUsage = usage;
-                dataStream.write({ type: 'data-usage', data: finalMergedUsage });
+                dataStream.write({
+                  type: 'data-usage',
+                  data: finalMergedUsage,
+                });
                 return;
               }
 
               if (!providers) {
                 finalMergedUsage = usage;
-                dataStream.write({ type: 'data-usage', data: finalMergedUsage });
+                dataStream.write({
+                  type: 'data-usage',
+                  data: finalMergedUsage,
+                });
                 return;
               }
 
@@ -263,7 +270,8 @@ export async function POST(request: Request) {
           }
         }
       },
-      onError: () => {
+      onError: (error) => {
+        console.error('Error in chat API:', error);
         return 'Oops, an error occurred!';
       },
     });

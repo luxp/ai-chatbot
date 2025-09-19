@@ -66,10 +66,11 @@ export async function put(
   // 上传对象
   await minioClient.putObject(bucket, fileName, buffer, buffer.length, meta);
 
-  const url = `/api/files/minio-file/${bucket}/${fileName}`;
+  const url = `${process.env.NEXT_SERVER_ORIGIN}/api/files/minio-file/${bucket}/${fileName}`;
 
   return {
     key: `${bucket}_${fileName}`,
+    name: fileName,
     bucket,
     url,
     downloadUrl: url,
