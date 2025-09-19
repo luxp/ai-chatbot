@@ -51,6 +51,10 @@ export default function Page() {
     formAction(formData);
   };
 
+  if (process.env.NEXT_PUBLIC_DISABLE_REGISTER === 'true') {
+    return <div>Registration is disabled</div>;
+  }
+
   return (
     <div className="flex h-dvh w-screen items-start justify-center bg-background pt-12 md:items-center md:pt-0">
       <div className="flex w-full max-w-md flex-col gap-12 overflow-hidden rounded-2xl">

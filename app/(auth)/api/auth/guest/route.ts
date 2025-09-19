@@ -14,8 +14,12 @@ export async function GET(request: Request) {
   });
 
   if (token) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/', process.env.NEXT_SERVER_ORIGIN));
   }
 
-  return signIn('guest', { redirect: true, redirectTo: redirectUrl });
+  return NextResponse.redirect(
+    new URL('/login', process.env.NEXT_SERVER_ORIGIN),
+  );
+
+  // return signIn('guest', { redirect: true, redirectTo: redirectUrl });
 }
